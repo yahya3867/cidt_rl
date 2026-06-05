@@ -1,0 +1,33 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local telemetry, generated experiments, model artifacts, and SQLite knowledge DBs.
+data/
+results/
+*.db
+*.sqlite
+*.pt
+*.pth
+*.onnx
+*.zip
+
+# Local snapshots and generated reports.
+server_metrics_snapshot.csv
+server_metrics_snapshot.json
+snapshot_*.csv
+result.md
+
+# Research PDFs / extracted paper text are not source code.
+*.pdf
+docs/*.txt
+
+# Local machine/editor files.
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
