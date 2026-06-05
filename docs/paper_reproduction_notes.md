@@ -14,7 +14,7 @@ The six provided papers are treated as design inspiration for the first reproduc
 | --- | --- |
 | Job-shop and flow-shop scheduling | Sequential workload placement into server machines |
 | Due-date constrained scheduling | Jobs include runtime and deadline fields |
-| Discrete-event scheduling framework | `main.py` runs a deterministic scheduling episode over a job queue |
+| Discrete-event scheduling framework | `scripts/rl/run_baselines.py` runs a deterministic scheduling episode over a job queue |
 | RL scheduler for HPC/data-center workloads | Baseline methods and state/action/reward shape are ready for a Gymnasium environment |
 | Sim2Real gap reduction | Real Prometheus snapshot plus synthetic workload stress cases |
 | Collaborative project-management practices | Modular files and reproducible CSV/JSON outputs |
@@ -27,4 +27,4 @@ The six provided papers are treated as design inspiration for the first reproduc
 4. Extend rewards for valid placement, utilization, balance, deadlines, and failure avoidance.
 5. Compare RL policies against the six baseline heuristic outputs in `results/allocation_summary.json`.
 
-The current RL reproduction layer is intentionally lightweight: `train_rl.py` implements tabular Q-learning with action masking so training can run on a bare Python install. The paper-style deep-RL path can build from the same environment once `gymnasium`, `torch`, and a trainer such as Stable-Baselines3 or a custom DQN/PPO implementation are added.
+The current RL reproduction layer is intentionally lightweight: `scripts/rl/train_q_learning.py` implements tabular Q-learning with action masking so training can run on a bare Python install. The paper-style deep-RL path can build from the same environment once `gymnasium`, `torch`, and a trainer such as Stable-Baselines3 or a custom DQN/PPO implementation are added.

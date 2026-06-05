@@ -3,16 +3,21 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
 from statistics import mean, stdev
 from typing import Any, Iterable
 
-from src.baselines import HEURISTICS, allocate_jobs
-from src.evaluate import summarize
-from src.export_results import export_allocation_plan
-from src.loaders import _server_from_row
-from src.rl_train import evaluate_q_policy, train_q_learning
-from src.workload_scenarios import SCENARIOS, generate_scenario_jobs
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.rl_scheduling.baselines import HEURISTICS, allocate_jobs
+from src.rl_scheduling.evaluate import summarize
+from src.rl_scheduling.export_results import export_allocation_plan
+from src.rl_scheduling.loaders import _server_from_row
+from src.rl_scheduling.rl_train import evaluate_q_policy, train_q_learning
+from src.rl_scheduling.workload_scenarios import SCENARIOS, generate_scenario_jobs
 
 
 def parse_args() -> argparse.Namespace:
@@ -135,7 +140,7 @@ def _run_dqn_trial(servers, jobs, timesteps: int, seed: int):
     from stable_baselines3 import DQN
     from stable_baselines3.common.monitor import Monitor
 
-    from src.gym_env import CidtGymEnv
+    from src.rl_scheduling.gym_env import CidtGymEnv
 
     env = Monitor(CidtGymEnv(servers, jobs))
     model = DQN(

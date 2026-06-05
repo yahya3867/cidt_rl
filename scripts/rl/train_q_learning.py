@@ -2,11 +2,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
-from src.export_results import export_allocation_plan, export_summary
-from src.loaders import load_jobs, load_servers
-from src.rl_train import evaluate_q_policy, serializable_q_table, train_q_learning
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.rl_scheduling.export_results import export_allocation_plan, export_summary
+from src.rl_scheduling.loaders import load_jobs, load_servers
+from src.rl_scheduling.rl_train import evaluate_q_policy, serializable_q_table, train_q_learning
 
 
 def parse_args() -> argparse.Namespace:

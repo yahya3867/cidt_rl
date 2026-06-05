@@ -1,16 +1,21 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from stable_baselines3 import DQN
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.monitor import Monitor
 
-from src.evaluate import summarize
-from src.export_results import export_allocation_plan, export_summary
-from src.gym_env import CidtGymEnv
-from src.loaders import load_jobs, load_servers
+from src.rl_scheduling.evaluate import summarize
+from src.rl_scheduling.export_results import export_allocation_plan, export_summary
+from src.rl_scheduling.gym_env import CidtGymEnv
+from src.rl_scheduling.loaders import load_jobs, load_servers
 
 
 def parse_args() -> argparse.Namespace:

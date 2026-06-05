@@ -1,13 +1,20 @@
-# CIDT Workload Allocation Prototype
+# CIDT RL and Anomaly Ops Prototype
 
-This prototype adapts job-shop and production scheduling ideas to Computing Infrastructure Digital Twin resource allocation.
+This repository has two related but separate experiment tracks:
 
-The current scope is deliberately small: it uses a Prometheus-style server snapshot, generates synthetic jobs, runs baseline placement heuristics, and exports allocation plans that can later be shown in CIDT/Omniverse or used as baselines for a Gymnasium reinforcement-learning environment.
+- `src/rl_scheduling/` and `scripts/rl/`: the original workload-placement and reinforcement-learning scheduling prototype.
+- `src/anomaly_*`, `src/knowledge_db.py`, `src/slm_client.py`, `src/incident_agent.py`, and root `run_*` anomaly scripts: the Prometheus anomaly detection, SLM extraction, knowledge DB, and incident-ops prototype.
+
+Raw telemetry, generated results, model artifacts, and local SQLite DBs are intentionally excluded from Git.
+
+## RL Scheduling Prototype
+
+The RL scheduling track adapts job-shop and production scheduling ideas to Computing Infrastructure Digital Twin resource allocation. It uses a Prometheus-style server snapshot, generates synthetic jobs, runs baseline placement heuristics, and exports allocation plans that can later be shown in CIDT/Omniverse or used as baselines for a Gymnasium reinforcement-learning environment.
 
 ## Run
 
 ```powershell
-python main.py
+python scripts/rl/run_baselines.py
 ```
 
 Outputs:
@@ -43,7 +50,7 @@ All baselines avoid `up=0` machines and reject placements that exceed CPU, memor
 ## Train RL Prototype
 
 ```powershell
-python train_rl.py --episodes 800
+python scripts/rl/train_q_learning.py --episodes 800
 ```
 
 The RL layer is a dependency-free tabular Q-learning allocator with action masking. It uses the same state/action/reward idea planned for Gymnasium:
@@ -63,7 +70,7 @@ Outputs:
 After creating the local venv and installing requirements:
 
 ```powershell
-.\.venv\Scripts\python.exe train_sb3_dqn.py --timesteps 20000
+.\.venv\Scripts\python.exe scripts/rl/train_sb3_dqn.py --timesteps 20000
 ```
 
 The DQN environment chooses from a ranked feasible candidate set instead of all raw servers. This keeps the action space small enough to train on CPU while still producing concrete server placements.
@@ -77,13 +84,13 @@ Outputs:
 ## Multi-Snapshot Experiments
 
 ```powershell
-python run_experiments.py --snapshot-glob "snapshot_*.csv" --job-seeds "42,43,44,45,46"
+python scripts/rl/run_snapshot_experiments.py --snapshot-glob "snapshot_*.csv" --job-seeds "42,43,44,45,46"
 ```
 
 With DQN included:
 
 ```powershell
-.\.venv\Scripts\python.exe run_experiments.py --snapshot-glob "snapshot_*.csv" --job-seeds "42,43,44" --include-dqn --dqn-timesteps 5000
+.\.venv\Scripts\python.exe scripts/rl/run_snapshot_experiments.py --snapshot-glob "snapshot_*.csv" --job-seeds "42,43,44" --include-dqn --dqn-timesteps 5000
 ```
 
 Outputs:
@@ -95,13 +102,13 @@ Outputs:
 ## Full Time-Series Experiments
 
 ```powershell
-python run_timeseries_experiments.py --timeseries data/server_metrics_timeseries.csv --job-seeds "42,43,44"
+python scripts/rl/run_timeseries_experiments.py --timeseries data/server_metrics_timeseries.csv --job-seeds "42,43,44"
 ```
 
 Stress scenarios:
 
 ```powershell
-python run_timeseries_experiments.py --scenario mixed_stress --job-count 200 --max-snapshots 100 --job-seeds "42,43,44"
+python scripts/rl/run_timeseries_experiments.py --scenario mixed_stress --job-count 200 --max-snapshots 100 --job-seeds "42,43,44"
 ```
 
 Available scenarios:
