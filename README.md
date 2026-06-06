@@ -117,6 +117,14 @@ Stress scenarios:
 python scripts/rl/run_timeseries_experiments.py --scenario mixed_stress --job-count 200 --max-snapshots 100 --job-seeds "42,43,44"
 ```
 
+Train one DQN policy across sampled Prometheus snapshots:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/rl/train_timeseries_dqn.py --timeseries results/rl_cidt_metrics_history/prepared_timeseries.csv --train-snapshots 512 --eval-snapshots 100 --timesteps 250000 --device auto
+```
+
+This is the preferred overnight RL path. It samples different telemetry snapshots during training instead of retraining a fresh policy for each timestamp. `--device auto` uses CUDA when the installed PyTorch build can see a GPU.
+
 Available scenarios:
 
 - `normal`
