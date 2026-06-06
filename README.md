@@ -7,6 +7,12 @@ This repository has two related but separate experiment tracks:
 
 Raw telemetry, generated results, model artifacts, and local SQLite DBs are intentionally excluded from Git.
 
+Install dependencies with the PyTorch CUDA wheel index when GPU DQN training is needed:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
+```
+
 ## RL Scheduling Prototype
 
 The RL scheduling track adapts job-shop and production scheduling ideas to Computing Infrastructure Digital Twin resource allocation. It uses a Prometheus-style server snapshot, generates synthetic jobs, runs baseline placement heuristics, and exports allocation plans that can later be shown in CIDT/Omniverse or used as baselines for a Gymnasium reinforcement-learning environment.
