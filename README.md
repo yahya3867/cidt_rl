@@ -101,6 +101,12 @@ Outputs:
 
 ## Full Time-Series Experiments
 
+For Prometheus exports where each target has slightly different scrape timestamps, first bucket the history into RL snapshots. Alert windows can optionally be applied as scheduling unavailability:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/rl/prepare_prometheus_timeseries.py --metrics C:\path\to\cidt_metrics_history.csv --alert-windows C:\path\to\cidt_alert_windows.csv --output results/rl_cidt_metrics_history/prepared_timeseries.csv
+```
+
 ```powershell
 python scripts/rl/run_timeseries_experiments.py --timeseries data/server_metrics_timeseries.csv --job-seeds "42,43,44"
 ```
